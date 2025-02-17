@@ -1,43 +1,51 @@
-<h2 mat-dialog-title>Add User Detail</h2>
-<mat-dialog-content>
-<form #addUserForm="ngForm" (ngSubmit)="onSubmit(addUserForm.value)">
-    <!-- User Name Field -->
-    <mat-form-field class="full-width">
-      <mat-label>User Name</mat-label>
-      <input matInput type="text" name="userName" ngModel required placeholder="Enter your name">
-    </mat-form-field>
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-4">
+    <div class="card mat-elevation-z4">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput id="userName" formControlName="userName" />
+          <mat-error *ngIf="userForm.get('userName')?.invalid && userForm.get('userName')?.touched">
+            Username is required
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Password Field -->
-    <mat-form-field class="full-width">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" name="password" [(ngModel)]="password" ngModel required placeholder="Enter password">
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput id="password" type="password" formControlName="password" />
+          <mat-error *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+            Password is required
+          </mat-error>
+        </mat-form-field>
 
-     <!-- Confirm Password Field -->
-     <mat-form-field class="full-width" class="full-width">
-      <mat-label>Confirm Password</mat-label>
-      <input matInput type="password" name="confirmPassword" [(ngModel)]="confirmPassword"required placeholder="Confirm password" #confirmPasswordField="ngModel">
-      <mat-error *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched">
-        Confirm Password is required
-      </mat-error>
-      <mat-error *ngIf="password !== confirmPassword && confirmPasswordField.touched">
-        Passwords do not match
-      </mat-error>
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput id="confirmPassword" type="password" formControlName="confirmPassword" />
+          <mat-error *ngIf="userForm.errors?.['mismatch']">
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Role Selection -->
-    <mat-form-field class="full-width">
-      <mat-label>Select Role</mat-label>
-      <mat-select name="role" ngModel required>
-        <mat-option value="manager">Manager</mat-option>
-        <mat-option value="admin">Site Admin</mat-option>
-        <mat-option value="operator">Operator</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </form>
-</mat-dialog-content>
+        <mat-form-field appearance="fill">
+          <mat-label>Role</mat-label>
+          <mat-select id="role" formControlName="role">
+            <mat-option value="">Select Role</mat-option>
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="user">Site Admin</mat-option>
+            <mat-option value="operator">Operator</mat-option>
+          </mat-select>
+          <mat-error *ngIf="userForm.get('role')?.invalid && userForm.get('role')?.touched">
+            Role is required
+          </mat-error>
+        </mat-form-field>
 
-<mat-dialog-actions >
-  <button mat-raised-button color="primary" (click)="onSubmit(addUserForm.value)">Add</button>
-  <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
-</mat-dialog-actions>
+        <button mat-raised-button color="primary" type="submit">Add User</button>
+        <button mat-raised-button color="primary" routerLink="/users" style="margin-left: 5px;">Cancel</button>
+
+      </form>
+    </div>
+  </div>
+  <div class="col-4"></div>
+</div>

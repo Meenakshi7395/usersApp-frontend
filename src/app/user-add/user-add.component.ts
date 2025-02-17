@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { NgForm } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-add',
@@ -10,38 +9,48 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrl: './user-add.component.css'
 })
 
-export class UserAddComponent {
+export class UserAddComponent implements OnInit{
 
-   constructor(private userService: UserService, public dialogRef:MatDialogRef<UserAddComponent>) {}
+  userForm!: FormGroup;
 
-   userName: string = '';
-   password: string = '';
-   confirmPassword: string = '';
-   role: string = '';
+   constructor( private formBuileder: FormBuilder, private userService: UserService) {}
 
-  onSubmit(formValue: any) {
+   ngOnInit() {
+    this.userForm = this.formBuileder.group({
+      userName: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', Validators.required],
+      role: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
+  }
 
-    if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match');
+  passwordMatchValidator(formGroup:FormGroup){
+  const password = formGroup.get('password')?.value;
+  const confirmPassword = formGroup.get('confirmPassword')?.value;
+  return password === confirmPassword ? null :{mismatch:true};
+  }
+
+
+  onSubmit() {
+      if (this.userForm.invalid) {
+      alert('Invalid Details');
       return;
     }
 
-    console.log('Form Submitted:', formValue);
+    const formValue = this.userForm.value;
+    console.log(formValue);
+  
     this.userService.addUser(formValue).subscribe({
-          next: (response) => {
-            console.log('User added successfully', response);
-            alert('User added successfully');
-            this.dialogRef.close(true);
-          },
-          error: (error) => {
-            console.error('Error adding user', error);
-            alert('Invalid User detail, Not added.');
-          },
-      });
+      next: (response) => {
+        console.log('User added successfully', response);
+        alert('User added successfully');
+        this.userForm.reset();         // Reset form on success
+      },
+      error: (error) => {
+        console.error('Error adding user', error);
+        alert('Invalid User details, Not added.');
+      }
+    });
 }
-
-  onCancel() {
-    this.dialogRef.close(false);    // Close dialog without saving
-  }
 }
 
