@@ -24,7 +24,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { HomeComponent } from './home/home.component';
 import {MatDialogModule} from '@angular/material/dialog';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     LoginComponent,
     UserAddComponent,
    UserEditComponent,
-   HomeComponent
+   HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +54,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
     MatSidenavModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule,
+    MatIconModule
   ],
   
   providers: [],

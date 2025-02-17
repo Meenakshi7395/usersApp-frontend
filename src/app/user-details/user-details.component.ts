@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { UserAddComponent } from '../user-add/user-add.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-details',
@@ -16,8 +17,16 @@ export class UserDetailsComponent implements OnInit {
     selectedUser: any = { id: null, userName: '', password: '', confirmPassword: '', role: '' };
     isEditing = false;
   
-    constructor(private userService: UserService, private router : Router, private dialog: MatDialog) {}
+    constructor(private userService: UserService, private router : Router, private dialog: MatDialog, private snackBar: MatSnackBar) {}
   
+    showSnackbar(message: string, action: string) {
+      this.snackBar.open(message, action, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top' 
+        // panelClass: ['snackbar-style'] 
+      });
+    }
+    
     ngOnInit() {
       this.loadUsers();
     }
@@ -52,39 +61,39 @@ export class UserDetailsComponent implements OnInit {
       });
     }
     
-
-
-    deleteUser(id: number) {
+  deleteUser(id: number) {
       console.log(id);
       if (confirm('You want to delete this?')) {
         this.userService.deleteUser(id).subscribe({
           next: (response) => {
-            alert('User deleted successfully');
+            this.showSnackbar('User deleted successfully','Close');
             this.users = this.users.filter(user => user.id !== id);   //remove user from list immediately
           },
           error: (error) => {
             if(error.status === 200){
               this.users = this.users.filter(user => user.id !== id)    //remove user from UI
             }else{
-              alert(`Failed to delete user: ${error.message}`);
+              this.showSnackbar(`Failed to delete user: ${error.message}`,'Close');
             }
           },
         });
       }
     }
 
-    openAddUserDialog() {
-      const dialogRef = this.dialog.open(UserAddComponent, {
-        width: '400px',
-      });
+
+
+    // openAddUserDialog() {
+    //   const dialogRef = this.dialog.open(UserAddComponent, {
+    //     width: '400px',
+    //   });
   
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          console.log(result);
-          this.loadUsers(); // Refresh user list if a user was added
-        }
-      });
-    }
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     if (result) {
+    //       console.log(result);
+    //       this.loadUsers(); // Refresh user list if a user was added
+    //     }
+    //   });
+    // }
 
   }
   

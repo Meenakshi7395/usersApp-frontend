@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-user-add',
@@ -13,7 +15,17 @@ export class UserAddComponent implements OnInit{
 
   userForm!: FormGroup;
 
-   constructor( private formBuileder: FormBuilder, private userService: UserService) {}
+   constructor( private formBuileder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar  ) {}
+
+   hidepassword = true;
+    passwordVisibility(){
+    this.hidepassword = !this.hidepassword;
+  }
+
+  hideConfirmPassword=true;
+  confirmPasswordVisibility(){
+    this.hideConfirmPassword= !this.hideConfirmPassword;
+  }
 
    ngOnInit() {
     this.userForm = this.formBuileder.group({
@@ -30,10 +42,19 @@ export class UserAddComponent implements OnInit{
   return password === confirmPassword ? null :{mismatch:true};
   }
 
+ 
+  
+  showSnackbar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top' 
+      // panelClass: ['snackbar-style'] 
+    });
+  }
 
   onSubmit() {
       if (this.userForm.invalid) {
-      alert('Invalid Details');
+      // this.showSnackbar('Invalid Details','Close');
       return;
     }
 
@@ -43,14 +64,19 @@ export class UserAddComponent implements OnInit{
     this.userService.addUser(formValue).subscribe({
       next: (response) => {
         console.log('User added successfully', response);
-        alert('User added successfully');
+        this.showSnackbar('User added successfully', 'Close')
+        // alert('User added successfully');
         this.userForm.reset();         // Reset form on success
       },
       error: (error) => {
         console.error('Error adding user', error);
-        alert('Invalid User details, Not added.');
+        this.showSnackbar('Invalid User details', 'Close')
+        // alert('Invalid User details, Not added.');
       }
     });
 }
+
+
+
 }
 
