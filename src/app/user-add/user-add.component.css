@@ -1,0 +1,21 @@
+/* .card{
+    margin-top: 10%;
+}
+
+.form-group{
+    padding: 10px;
+}
+#addbtn{
+    margin-left: 15px;
+    width: 120px;
+    margin-bottom: 10px;
+} */
+
+.full-width {
+    width: 100%;
+  }
+  
+  mat-card {
+    padding: 20px;
+  }
+  

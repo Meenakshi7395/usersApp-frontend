@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Add User Detail</h2>
+<mat-dialog-content>
+<form #addUserForm="ngForm" (ngSubmit)="onSubmit(addUserForm.value)">
+    <!-- User Name Field -->
+    <mat-form-field class="full-width">
+      <mat-label>User Name</mat-label>
+      <input matInput type="text" name="userName" ngModel required placeholder="Enter your name">
+    </mat-form-field>
+
+    <!-- Password Field -->
+    <mat-form-field class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" name="password" [(ngModel)]="password" ngModel required placeholder="Enter password">
+    </mat-form-field>
+
+     <!-- Confirm Password Field -->
+     <mat-form-field class="full-width" class="full-width">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput type="password" name="confirmPassword" [(ngModel)]="confirmPassword"required placeholder="Confirm password" #confirmPasswordField="ngModel">
+      <mat-error *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched">
+        Confirm Password is required
+      </mat-error>
+      <mat-error *ngIf="password !== confirmPassword && confirmPasswordField.touched">
+        Passwords do not match
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Role Selection -->
+    <mat-form-field class="full-width">
+      <mat-label>Select Role</mat-label>
+      <mat-select name="role" ngModel required>
+        <mat-option value="manager">Manager</mat-option>
+        <mat-option value="admin">Site Admin</mat-option>
+        <mat-option value="operator">Operator</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions >
+  <button mat-raised-button color="primary" (click)="onSubmit(addUserForm.value)">Add</button>
+  <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>
