@@ -2,7 +2,7 @@
   <mat-card-title class="text-center">Edit User</mat-card-title>
 </mat-card-header>
 <mat-card-content>
-  <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+  <!-- <form (ngSubmit)="onSubmit()" #userForm="ngForm"> -->
     <mat-form-field class="w-100">
       <mat-label>User Name</mat-label>
       <input matInput type="text" [(ngModel)]="user.userName" name="userName" required>
@@ -26,8 +26,8 @@
     </mat-form-field>
 
     <div class="d-flex justify-content-start mt-3">
-      <button mat-raised-button color="primary" type="submit">Update</button>
+      <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Update</button>
       <button mat-raised-button color="primary" (click)="onCancel()" style="margin-left: 8px;">Cancel</button>
     </div>
-  </form>
+  <!-- </form> -->
 </mat-card-content>

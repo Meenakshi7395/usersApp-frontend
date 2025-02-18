@@ -21,6 +21,7 @@ export class UserDetailsComponent implements OnInit {
   
     showSnackbar(message: string, action: string) {
       this.snackBar.open(message, action, {
+        duration:1500,
         horizontalPosition: 'center',
         verticalPosition: 'top' 
         // panelClass: ['snackbar-style'] 
@@ -37,20 +38,13 @@ export class UserDetailsComponent implements OnInit {
       });
     }
     displayedColumns: string[] = ['index', 'userName', 'password', 'role', 'actions']
-  
-   
-
-    // editUser(user:any) {
-    //   console.log(user);
-    //   this.userService.userDetails = user;
-    //   this.dialog.open(UserEditComponent);
-    // }
     
     editUser(user: any) {
       console.log(user);
       this.userService.userDetails = user;
       const dialogRef = this.dialog.open(UserEditComponent, {
         width: '400px',
+        disableClose: true
       });
     
       dialogRef.afterClosed().subscribe(result  => {
@@ -79,8 +73,6 @@ export class UserDetailsComponent implements OnInit {
         });
       }
     }
-
-
 
     // openAddUserDialog() {
     //   const dialogRef = this.dialog.open(UserAddComponent, {

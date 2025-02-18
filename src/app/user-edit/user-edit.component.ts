@@ -39,6 +39,7 @@ export class UserEditComponent implements OnInit {
   
   showSnackbar(message: string, action: string) {
     this.snackBar.open(message, action, {
+      duration : 1500,
       horizontalPosition: 'center',
       verticalPosition: 'top' 
       // panelClass: ['snackbar-style'] 
@@ -66,7 +67,6 @@ export class UserEditComponent implements OnInit {
     });
   }
   onCancel() {
-    this.user = { ...this.userDetails };
     this.dialogRef.close(false);
   }
 }
