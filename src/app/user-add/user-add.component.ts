@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,8 +15,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UserAddComponent implements OnInit{
 
   userForm!: FormGroup;
+ 
 
-   constructor( private formBuileder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar  ) {}
+   constructor( private formBuileder: FormBuilder, private userService: UserService,
+     private snackBar: MatSnackBar,
+     private router: Router,
+      ) {}
 
    hidepassword = true;
     passwordVisibility(){
@@ -66,8 +71,10 @@ export class UserAddComponent implements OnInit{
       next: (response) => {
         console.log('User added successfully', response);
         this.showSnackbar('User added successfully', 'Close')
+        this.router.navigate(['/users']); 
+        // this.userForm.reset(); 
         // alert('User added successfully');
-        this.userForm.reset();         // Reset form on success
+               // Reset form on success
       },
       error: (error) => {
         console.error('Error adding user', error);

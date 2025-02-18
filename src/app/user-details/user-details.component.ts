@@ -1,10 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UserEditComponent } from '../user-edit/user-edit.component';
-import { UserAddComponent } from '../user-add/user-add.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-user-details',
@@ -12,13 +14,48 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.css',
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, AfterViewInit {
+
     users: any[] = [];
     selectedUser: any = { id: null, userName: '', password: '', confirmPassword: '', role: '' };
     isEditing = false;
   
     constructor(private userService: UserService, private router : Router, private dialog: MatDialog, private snackBar: MatSnackBar) {}
+
+    displayedColumns: string[] = ['index', 'userName', 'password', 'role', 'actions'];
+    dataSource = new MatTableDataSource<any>();
+    userlength=0;
+    
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    // @ViewChild(MatSort) sort!: MatSort;
+
+    ngOnInit() {
+      this.loadUsers();
+    }
   
+    loadUsers() {
+      this.userService.getUsers().subscribe((data) => {
+        this.users = data;
+        this.userlength = this.users.length; 
+        this.dataSource.data = this.users;  
+      });
+    }
+
+    ngAfterViewInit() {
+      this.dataSource.paginator = this.paginator;
+      
+      // this.dataSource.sort = this.sort;
+    }
+  
+    applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+    }
+
     showSnackbar(message: string, action: string) {
       this.snackBar.open(message, action, {
         duration:1500,
@@ -27,18 +64,7 @@ export class UserDetailsComponent implements OnInit {
         // panelClass: ['snackbar-style'] 
       });
     }
-    
-    ngOnInit() {
-      this.loadUsers();
-    }
-  
-    loadUsers() {
-      this.userService.getUsers().subscribe((data) => {
-        this.users = data;
-      });
-    }
-    displayedColumns: string[] = ['index', 'userName', 'password', 'role', 'actions']
-    
+
     editUser(user: any) {
       console.log(user);
       this.userService.userDetails = user;
@@ -74,6 +100,7 @@ export class UserDetailsComponent implements OnInit {
       }
     }
 
+    
     // openAddUserDialog() {
     //   const dialogRef = this.dialog.open(UserAddComponent, {
     //     width: '400px',

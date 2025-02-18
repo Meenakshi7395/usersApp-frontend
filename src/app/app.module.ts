@@ -25,6 +25,10 @@ import { MatListModule } from '@angular/material/list';
 import { HomeComponent } from './home/home.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +60,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatListModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatPaginator
   ],
   
   providers: [],

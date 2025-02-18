@@ -12,7 +12,7 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   loginUser(formData:any){
-    console.log(formData);
+    // console.log(formData);
 
     const { userName, password } = formData;
     
