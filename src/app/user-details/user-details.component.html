@@ -43,7 +43,6 @@
   </div>
    -->
    
-  
   <div class="container mt-4">
     <mat-card class="text-center">
       <h2 class="p-2" style="font-size: 20px;">User's Detail</h2>
@@ -61,7 +60,9 @@
   
     <mat-card class="mt-3">
       <mat-card-title class="t-1">Your all Detail</mat-card-title>
-      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+      <div class="example-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Index Column -->
         <ng-container matColumnDef="index">
           <mat-header-cell *matHeaderCellDef>Index</mat-header-cell>
@@ -95,13 +96,14 @@
           </mat-cell>
         </ng-container>
   
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">Data Not Matched "{{input.value}}"</td>
         </tr>
-    </mat-table>
+    </table>
+  </div>
       <!-- <mat-paginator   [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons ></mat-paginator> -->
     </mat-card>
     <mat-paginator [length]="userlength" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>

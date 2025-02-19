@@ -51,7 +51,7 @@ export class UserAddComponent implements OnInit{
   
   showSnackbar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration :1500,
+      duration :2000,
       horizontalPosition: 'center',
       verticalPosition: 'top' 
       // panelClass: ['snackbar-style'] 

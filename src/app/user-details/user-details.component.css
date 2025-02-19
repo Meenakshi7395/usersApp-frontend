@@ -37,5 +37,12 @@ section {
     margin: 8px;
     font-size: 20px;
   }
+  table {
+    width: 100%;
+  }
   
-  
+  .example-container {
+    height: 300px;
+    max-width: 100%;
+    overflow: auto;
+  }
